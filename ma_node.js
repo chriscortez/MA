@@ -148,14 +148,16 @@ if (process.argv.length == 3) {
     incoming.on('message', function(msg) {
         console.log("[IncomingStream 'message'] Message Received");
 
+        var message = "";
         if (msg["data"] 
             && msg["data"]["subject"] 
             && msg["data"]["subject"]["text"]) {
-            if (msg["data"]["subject"]["text"].indexOf(BOT_LISTENS_FOR) >= 0) {
+            message = msg["data"]["subject"]["text"].toLowerCase();
+            if (message.indexOf(BOT_LISTENS_FOR) >= 0) {
               if (bot_id && msg["data"]["subject"]["name"] != "BOT") {
 
                 var reply = "";
-                if (msg["data"]["subject"]["text"].indexOf(GET_UPCOMING_SHOWS) >= 0) {
+                if (message.indexOf(GET_UPCOMING_SHOWS) >= 0) {
                   var day, month, dateObj;
                   var location;
                   for (var timestamp in upcomingShows) {
