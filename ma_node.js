@@ -2,9 +2,30 @@
 
 var GroupMe = require('groupme');
 var API = GroupMe.Stateless;
+var upcomingShows = {
+  1387347472318: 'Beat Kitchen',
+  1388296800000: 'Quenchers',
+  1389592800000: 'Township',
+  1390284000000: 'Burlington'
+};
 
+var months = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec"
+];
 
-var BOT_LISTENS_FOR = "hey Mom";
+var BOT_LISTENS_FOR = "hey ma";
+var GET_UPCOMING_SHOWS = "upcoming shows";
 
 /************************************************************************
  * Read the access token from the command line.
@@ -129,13 +150,33 @@ if (process.argv.length == 3) {
 
         if (msg["data"] 
             && msg["data"]["subject"] 
-            && msg["data"]["subject"]["text"]
-            && msg["data"]["subject"]["text"].indexOf(BOT_LISTENS_FOR) >= 0) {
-            if (bot_id && msg["data"]["subject"]["name"] != "BOT") {
+            && msg["data"]["subject"]["text"]) {
+            if (msg["data"]["subject"]["text"].indexOf(BOT_LISTENS_FOR) >= 0) {
+              if (bot_id && msg["data"]["subject"]["name"] != "BOT") {
+
+                var reply = "";
+                if (msg["data"]["subject"]["text"].indexOf(GET_UPCOMING_SHOWS) >= 0) {
+                  var day, month, dateObj;
+                  var location;
+                  for (var timestamp in upcomingShows) {
+                    if (upcomingShows.hasOwnProperty(timestamp)) {
+                      location = upcomingShows[timestamp];
+
+                      dateObj = new Date(parseInt(timestamp));
+                      month = months[dateObj.getUTCMonth()];
+                      day = dateObj.getUTCDate();
+
+                      reply += month + " " + day + " at " + location + "\n";
+                    }
+                  }
+                } else {
+                  reply = "Yes, my child?";
+                }
+
                 API.Bots.post(
                     ACCESS_TOKEN, // Identify the access token
                     bot_id, // Identify the bot that is sending the message
-                    "Yes, my child?", // Construct the message
+                    reply, // Construct the message
                     {}, // No pictures related to this post
                     function(err,res) {
                         if (err) {
@@ -144,6 +185,7 @@ if (process.argv.length == 3) {
                             console.log("[API.Bots.post] Reply Message Sent!");
                         }
                     });
+              }
             }
         }
 
