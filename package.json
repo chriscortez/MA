@@ -1,0 +1,20 @@
+{
+  "name": "mabot",
+  "version": "0.0.0",
+  "description": "A bot for my band",
+  "main": "ma_node.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chriscortez/mabot.git"
+  },
+  "author": "Chris Cortez",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "groupme": "~0.5.4",
+    "logfmt": "~0.18.1",
+    "express": "~3.4.7"
+  }
+}
