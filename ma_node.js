@@ -1,4 +1,14 @@
 #!/usr/bin/env node
+var http = require("http");
+var port = process.env.PORT || CONFIG.port;
+http.createServer(function(request, response) {
+  console.log('hello world');
+  response.writeHead(200, {"Content-Type": "text/plain"});
+  response.write("Hello World");
+  response.end();
+}).listen(port);
+
+console.log('server started');
 
 var GroupMe = require('groupme');
 var API = GroupMe.Stateless;
