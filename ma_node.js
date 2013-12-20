@@ -2,18 +2,14 @@
 var http = require("http");
 var port = process.env.PORT || CONFIG.port;
 http.createServer(function(request, response) {
-  console.log('hello world');
   response.writeHead(200, {"Content-Type": "text/plain"});
   response.write("Hello World");
   response.end();
 }).listen(port);
 
-console.log('server started');
-
 var GroupMe = require('groupme');
 var API = GroupMe.Stateless;
 var upcomingShows = {
-  1387347472318: 'Beat Kitchen',
   1388296800000: 'Quenchers',
   1389592800000: 'Township',
   1390284000000: 'Burlington'
